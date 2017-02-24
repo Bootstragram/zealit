@@ -54,6 +54,7 @@ const zealit = require('zealit')
 
 ## Todo
  - option to disable recursion?
- - expose `listSpecialProperty` as an option
- - default option
+ - option to customize `listSpecialProperty`
+ - default/global option
  - test with more node version (v6.7.0 at the moment)
+ - provide source code via github
