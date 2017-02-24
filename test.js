@@ -4,8 +4,9 @@ const zealit = require('./zealit')
 
 
 
+/* eslint-disable no-unused-vars, no-unused-expressions */
 const foo = zealit({ bar: true })
-let test = foo.bar // eslint-disable-line no-unused-vars
+let test = foo.bar
 let err
 try {
     test = foo.baz
@@ -74,12 +75,52 @@ if (!err) {
 
 err = null
 try {
-    // eslint-disable-next-line no-unused-expressions
     zealit({ a: { b: { c: true } } }).a.b.cc
 }
 catch (_err) {
     err = _err
 }
 if (!err) {
+    throw new Error('test failed')
+}
+
+
+
+err = null
+try {
+    zealit({ a: true }).b
+}
+catch (_err) {
+    err = _err
+}
+if (!err) {
+    throw new Error('test failed')
+}
+
+err = null
+try {
+    const z = zealit({ a: true }, { ignore: 'b' })
+    z.a
+    z.b
+    z.c
+}
+catch (_err) {
+    err = _err
+}
+if (!err || err.message !== "zealit: property 'c' is nonexistent") {
+    throw new Error('test failed')
+}
+
+err = null
+try {
+    const z = zealit({ a: true }, { ignore: ['b'] })
+    z.a
+    z.b
+    z.c
+}
+catch (_err) {
+    err = _err
+}
+if (!err || err.message !== "zealit: property 'c' is nonexistent") {
     throw new Error('test failed')
 }
