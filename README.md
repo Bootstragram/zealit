@@ -39,7 +39,7 @@ Clones `obj` recursively and returns a _zealed_ version of the object.
  - `obj` &lt;any> Any JavaScript primitive or Object
  - `option` &lt;Object>
     - `freeze` &lt;boolean> If `true`, the object is _freezed_ as the same time via `Object.freeze`. Defaults to `false`.
-    - `ignore` &lt;String|Array> Properties to ignore, no exception thrown if these properties are read while those doesn't exist
+    - `ignore` &lt;String|Array> Properties to ignore, no exception will be thrown for these properties as they keep behaving like vanilla JavaScript properties
 
 ## Installation
 Using npm:
