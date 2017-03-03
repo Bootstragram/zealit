@@ -4,17 +4,19 @@ const traverse = require('traverse')
 
 
 const fHasOwnProperty = Object.prototype.hasOwnProperty
-const globalListPropertyToIgnore = [
-    'toJSON',
-    'valueOf',
-    'inspect',
-    Symbol.toStringTag,
-    util.inspect.custom,
-].filter((e) => !!e)
+const globalOption = {
+    ignore: [
+        'toJSON',
+        'valueOf',
+        'inspect',
+        Symbol.toStringTag,
+        util.inspect.custom,
+    ].filter((e) => !!e),
+}
 
 
 
-function zealOneObject(obj, option) {
+function zealOneObject(obj, localOption) {
     return new Proxy(obj, {
         get: (target, key) => {
             const v = target[key]
@@ -25,10 +27,10 @@ function zealOneObject(obj, option) {
             if (fHasOwnProperty.call(target, key)) {
                 return v
             }
-            if (option.ignore.includes(key)) {
+            if (localOption.ignore.includes(key)) {
                 return v
             }
-            if (globalListPropertyToIgnore.includes(key)) {
+            if (globalOption.ignore.includes(key)) {
                 return v
             }
 
@@ -39,9 +41,11 @@ function zealOneObject(obj, option) {
 
 // create a zealous object
 //  prevent getting nonexistent property
-function zealit(obj, option={}) {
-    const listToIgnore = (option.ignore)
-        ? (Array.isArray(option.ignore) ? option.ignore : [option.ignore])
+function zealit(obj, localOption={}) {
+    const listToIgnore = (localOption.ignore)
+        ? (Array.isArray(localOption.ignore)
+            ? localOption.ignore
+            : [localOption.ignore])
         : []
 
     return traverse(obj).map(function (node) {
@@ -51,7 +55,9 @@ function zealit(obj, option={}) {
                 const zealed = zealOneObject(node, {
                     ignore: ignoreThat,
                 })
-                const fFreeze = (option.freeze) ? Object.freeze : ((e) => e)
+
+                const mustFreeze = localOption.freeze
+                const fFreeze = (mustFreeze) ? Object.freeze : ((e) => e)
                 this.update(fFreeze(zealed))
             }
         })
@@ -62,7 +68,5 @@ function zealit(obj, option={}) {
 
 
 
-zealit.option = {
-    ignore: globalListPropertyToIgnore,
-}
+zealit.option = globalOption
 module.exports = zealit
