@@ -165,3 +165,48 @@ const zealit = require('./zealit')
             process.exit(1)
         })
 }
+
+
+
+{
+    const test1 = zealit({ bar: true })
+    let err = null
+    try {
+        test1.bar = false
+    }
+    catch (_err) {
+        err = _err
+    }
+    if (err || test1.bar !== false) {
+        throw new Error('test failed')
+    }
+}
+
+{
+    zealit.option.freeze = true
+    const test2 = zealit({ bar: true })
+    let err = null
+    try {
+        test2.bar = false
+    }
+    catch (_err) {
+        err = _err
+    }
+    if (!err || test2.bar !== true) {
+        throw new Error('test failed')
+    }
+}
+
+{
+    const test3 = zealit({ bar: true }, { freeze: false })
+    let err = null
+    try {
+        test3.bar = false
+    }
+    catch (_err) {
+        err = _err
+    }
+    if (err || test3.bar !== false) {
+        throw new Error('test failed')
+    }
+}

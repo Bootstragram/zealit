@@ -12,6 +12,7 @@ const globalOption = {
         Symbol.toStringTag,
         util.inspect.custom,
     ].filter((e) => !!e),
+    freeze: false,
 }
 
 
@@ -56,7 +57,9 @@ function zealit(obj, localOption={}) {
                     ignore: ignoreThat,
                 })
 
-                const mustFreeze = localOption.freeze
+                const mustFreeze = (localOption.freeze === undefined)
+                    ? globalOption.freeze
+                    : localOption.freeze
                 const fFreeze = (mustFreeze) ? Object.freeze : ((e) => e)
                 this.update(fFreeze(zealed))
             }
