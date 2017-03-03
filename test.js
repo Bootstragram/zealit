@@ -85,7 +85,7 @@ const zealit = require('./zealit')
     catch (_err) {
         err = _err
     }
-    if (!err) {
+    if (!err || err.message !== "zealit: property 'cc' is nonexistent") {
         throw new Error('test failed')
     }
 }
