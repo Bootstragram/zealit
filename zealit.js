@@ -13,6 +13,7 @@ const globalOption = {
         util.inspect.custom,
     ].filter((e) => !!e),
     freeze: false,
+    catch: false,
 }
 
 
@@ -21,6 +22,12 @@ function zealOneObject(obj, localOption) {
     return new Proxy(obj, {
         get: (target, key) => {
             const v = target[key]
+            const catchOption = (localOption.catch === undefined)
+                ? globalOption.catch
+                : localOption.catch
+            if (catchOption === true) {
+                return v
+            }
 
             if (v !== undefined) {
                 return v
@@ -35,7 +42,14 @@ function zealOneObject(obj, localOption) {
                 return v
             }
 
-            throw new ReferenceError(`zealit: property '${key}' is nonexistent`)
+            const msg = `zealit: property '${key}' is nonexistent`
+            const err = new ReferenceError(msg)
+            if (catchOption) {
+                catchOption(err)
+                return v
+            }
+
+            throw err
         },
     })
 }
@@ -59,6 +73,7 @@ function zealit(obj, localOption={}) {
             if (node !== null && typeof node === 'object') {
                 const zealed = zealOneObject(node, {
                     ignore: ignoreThat,
+                    catch: localOption.catch,
                 })
 
                 this.update(fFreeze(zealed))

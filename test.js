@@ -213,12 +213,84 @@ const zealit = require('./zealit')
 
 
 
-{
+{ // hidden properties
     const foo = Object.defineProperty({}, 'bar', {
         value: true,
     })
     const baz = zealit(foo)
     if (baz.bar !== true) {
+        throw new Error('test failed')
+    }
+}
+
+
+
+{ // catch local option "true"
+    const foo = zealit({}, { catch: true })
+    foo.bar
+}
+
+{ // catch local option function
+    const catchConsoleLog = []
+    const foo = zealit({}, {
+        catch: (arg) => {
+            catchConsoleLog.push(arg)
+        },
+    })
+    foo.bar
+
+    const messageShouldBe = "zealit: property 'bar' is nonexistent"
+    if (catchConsoleLog.length !== 1
+        || !(catchConsoleLog[0] instanceof ReferenceError)
+        || catchConsoleLog[0].message !== messageShouldBe) {
+        throw new Error('test failed')
+    }
+}
+
+{ // catch global option "true"
+    zealit.option.catch = true
+    const foo = zealit({})
+    foo.bar
+    zealit.option.catch = false
+}
+
+{ // catch global option function
+    const catchConsoleLog = []
+    zealit.option.catch = (arg) => {
+        catchConsoleLog.push(arg)
+    }
+
+    const foo = zealit({})
+    foo.bar
+
+    const messageShouldBe = "zealit: property 'bar' is nonexistent"
+    if (catchConsoleLog.length !== 1
+        || !(catchConsoleLog[0] instanceof ReferenceError)
+        || catchConsoleLog[0].message !== messageShouldBe) {
+        throw new Error('test failed')
+    }
+    zealit.option.catch = false
+}
+
+{ // catch local over global option
+    const catchConsoleLog = []
+    zealit.option.catch = (arg) => {
+        catchConsoleLog.push(arg)
+    }
+
+    let err = null
+    const foo = zealit({}, { catch: false })
+    try {
+        foo.bar
+    }
+    catch (_err) {
+        err = _err
+    }
+
+    const messageShouldBe = "zealit: property 'bar' is nonexistent"
+    if (catchConsoleLog.length !== 0
+        || !(err instanceof ReferenceError)
+        || err.message !== messageShouldBe) {
         throw new Error('test failed')
     }
 }
