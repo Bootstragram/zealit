@@ -72,6 +72,9 @@ const zealit = require('zealit')
 ```
 
 ## Todo
- - option to disable recursion?
- - test with more node version (v6.7.0 at the moment)
  - provide source code via github
+ - explain limitation (Promise, .length, lodash, hidden properties)
+ - option to log in place of throw
+ - option to _rezeal_ a property
+ - test with more node version (v6.7.0 at the moment)
+ - option to disable recursion?
