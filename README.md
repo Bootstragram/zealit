@@ -9,15 +9,15 @@ Usefull to combine with `Object.freeze` to declare constants.
 const zealit = require('zealit')
 
 const ref = { foo: true, bar: undefined }
-const zealed = zealit(ref)
-
 ref.foo // true
 ref.bar // undefined
 ref.baz // undefined
 
+const zealed = zealit(ref)
 zealed.foo // true
 zealed.bar // undefined
 zealed.baz // throws a ReferenceError
+ref.baz // throws a ReferenceError as ref was updated by zealit
 
 const myConstants = zealit({
     PI: 3.14159265,
@@ -34,7 +34,7 @@ foo.baz // throws a ReferenceError
 
 ## Methods and options
 ### zealit(obj[, option])
-Clones `obj` recursively and returns a _zealed_ version of the object.
+Updates `obj` recursively and returns a _zealed_ version of the object.
 
  - `obj` &lt;any> Any JavaScript primitive or Object
  - `option` &lt;Object>
@@ -75,6 +75,7 @@ const zealit = require('zealit')
  - provide source code via github
  - explain limitation (Promise, .length, lodash, hidden properties)
  - option to log in place of throw
+ - option to clone but lose hidden properties vs update and keep those
  - option to _rezeal_ a property
  - test with more node version (v6.7.0 at the moment)
  - option to disable recursion?
