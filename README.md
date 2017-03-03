@@ -40,6 +40,10 @@ Updates `obj` recursively and returns a _zealed_ version of the object.
  - `option` &lt;Object>
     - `freeze` &lt;boolean> If `true`, the object is _freezed_ as the same time via `Object.freeze`. If provided, this local option will take precedence over the global option.
     - `ignore` &lt;String|Array> Properties to ignore, no exception will be thrown for these properties as they keep behaving like vanilla JavaScript properties. The current _zealed_ object will not throw exception for properties listed locally nor properties of the global list `zealit.option.ignore`
+    - `catch` &lt;boolean|Function> to override the default behavior (throwing a ReferenceError). If provided, this local option will take precedence over the global option.
+        - `fn(err)`: calls `fn` function with the ReferenceError as argument in place of throw ReferenceError
+        - `false`:  throw ReferenceError (default behavior)
+        - `true`: nothing happens
 
 ### zealit.option
 Object to expose global options, applies to all _zealed_ objects.
@@ -60,6 +64,16 @@ Object to expose global options, applies to all _zealed_ objects.
     foo.baz // undefined
     ```
 
+ - `catch` &lt;boolean|Function> to override the default behavior (throwing a ReferenceError). If provided, the local option will take precedence over this global option.
+    - `fn(err)`: calls `fn` function with the ReferenceError as argument in place of throw ReferenceError
+    - `false`:  throw ReferenceError (default behavior)
+    - `true`: nothing happens
+    ```javascript
+    const foo = zealit({ bar: true })
+    zealit.option.catch = (err) => { console.log('gotcha', err) }
+    foo.baz // return undefined and console.log('gotcha', ReferenceError)
+    ```
+
 ## Installation
 Using npm:
 ```
@@ -74,7 +88,6 @@ const zealit = require('zealit')
 ## Todo
  - provide source code via github
  - explain limitation (Promise, .length, lodash, hidden properties)
- - option to log in place of throw
  - option to clone but lose hidden properties vs update and keep those
  - option to _rezeal_ a property
  - test with more node version (v6.7.0 at the moment)
