@@ -46,11 +46,11 @@ Object to expose global options, applies to all _zealed_ objects.
 
  - `ignore` &lt;Array> Properties to ignore, no exception will be thrown for these properties as they keep behaving like vanilla JavaScript properties. Applies to all _zealed_ objects, even those was instancied before the update of `zealit.option.ignore`
     ```javascript
-const foo = zealit({ bar: true })
-foo.baz // throws a ReferenceError
+    const foo = zealit({ bar: true })
+    foo.baz // throws a ReferenceError
 
-zealit.option.ignore.push('bar')
-foo.baz // undefined
+    zealit.option.ignore.push('bar')
+    foo.baz // undefined
     ```
 
 ## Installation
