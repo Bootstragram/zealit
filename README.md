@@ -32,7 +32,7 @@ foo.bar // undefined
 foo.baz // throws a ReferenceError
 ```
 
-## Methods
+## Methods and options
 ### zealit(obj[, option])
 Clones `obj` recursively and returns a _zealed_ version of the object.
 
@@ -40,6 +40,18 @@ Clones `obj` recursively and returns a _zealed_ version of the object.
  - `option` &lt;Object>
     - `freeze` &lt;boolean> If `true`, the object is _freezed_ as the same time via `Object.freeze`. Defaults to `false`.
     - `ignore` &lt;String|Array> Properties to ignore, no exception will be thrown for these properties as they keep behaving like vanilla JavaScript properties
+
+### zealit.option
+Object to expose global options, applies to all _zealed_ objects.
+
+ - `ignore` &lt;Array> Properties to ignore, no exception will be thrown for these properties as they keep behaving like vanilla JavaScript properties. Applies to all _zealed_ objects, even those was instancied before the update of `zealit.option.ignore`
+    ```javascript
+const foo = zealit({ bar: true })
+foo.baz // throws a ReferenceError
+
+zealit.option.ignore.push('bar')
+foo.baz // undefined
+    ```
 
 ## Installation
 Using npm:
@@ -54,7 +66,6 @@ const zealit = require('zealit')
 
 ## Todo
  - option to disable recursion?
- - option to customize `listSpecialProperty`
- - default/global option
+ - freeze as global option
  - test with more node version (v6.7.0 at the moment)
  - provide source code via github
