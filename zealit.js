@@ -49,6 +49,10 @@ function zealit(obj, localOption={}) {
             : [localOption.ignore])
         : []
 
+    const mustFreeze = (localOption.freeze === undefined)
+        ? globalOption.freeze
+        : localOption.freeze
+    const fFreeze = (mustFreeze) ? Object.freeze : ((e) => e)
     return traverse(obj).forEach(function (node) {
         const ignoreThat = (this.isRoot) ? listToIgnore : []
         this.after(() => {
@@ -57,10 +61,6 @@ function zealit(obj, localOption={}) {
                     ignore: ignoreThat,
                 })
 
-                const mustFreeze = (localOption.freeze === undefined)
-                    ? globalOption.freeze
-                    : localOption.freeze
-                const fFreeze = (mustFreeze) ? Object.freeze : ((e) => e)
                 this.update(fFreeze(zealed))
             }
         })
