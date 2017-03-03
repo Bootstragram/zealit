@@ -4,7 +4,7 @@ const zealit = require('./zealit')
 
 
 
-/* eslint-disable no-unused-vars, no-unused-expressions */
+/* eslint-disable no-unused-vars, no-unused-expressions, no-console */
 const foo = zealit({ bar: true })
 let test = foo.bar
 let err
@@ -124,3 +124,30 @@ catch (_err) {
 if (!err || err.message !== "zealit: property 'c' is nonexistent") {
     throw new Error('test failed')
 }
+
+
+
+err = null
+Promise.resolve(foo)
+    .catch((_err1) => _err1)
+    .then((_err1) => {
+        if (!_err1) {
+            console.log(new Error('test failed'))
+            process.exit(1)
+        }
+    })
+    .then(() => {
+        zealit.option.ignore.push('then')
+        return Promise.resolve(foo)
+            .catch((_err2) => _err2)
+            .then((_err2) => {
+                if (_err2 && _err2 instanceof Error) {
+                    console.log(new Error('test failed'))
+                    process.exit(1)
+                }
+            })
+    })
+    .catch(() => {
+        console.log(new Error('test failed'))
+        process.exit(1)
+    })

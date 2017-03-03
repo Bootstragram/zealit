@@ -15,8 +15,6 @@ const globalListPropertyToIgnore = [
 
 
 function zealOneObject(obj, option) {
-    const localListToIgnore = option.ignore.concat(globalListPropertyToIgnore)
-
     return new Proxy(obj, {
         get: (target, key) => {
             const v = target[key]
@@ -27,7 +25,10 @@ function zealOneObject(obj, option) {
             if (fHasOwnProperty.call(target, key)) {
                 return v
             }
-            if (localListToIgnore.includes(key)) {
+            if (option.ignore.includes(key)) {
+                return v
+            }
+            if (globalListPropertyToIgnore.includes(key)) {
                 return v
             }
 
@@ -61,4 +62,7 @@ function zealit(obj, option={}) {
 
 
 
+zealit.option = {
+    ignore: globalListPropertyToIgnore,
+}
 module.exports = zealit
