@@ -38,8 +38,8 @@ Clones `obj` recursively and returns a _zealed_ version of the object.
 
  - `obj` &lt;any> Any JavaScript primitive or Object
  - `option` &lt;Object>
-    - `ignore` &lt;String|Array> Properties to ignore, no exception will be thrown for these properties as they keep behaving like vanilla JavaScript properties
     - `freeze` &lt;boolean> If `true`, the object is _freezed_ as the same time via `Object.freeze`. If provided, this local option will take precedence over the global option.
+    - `ignore` &lt;String|Array> Properties to ignore, no exception will be thrown for these properties as they keep behaving like vanilla JavaScript properties. The current _zealed_ object will not throw exception for properties listed locally nor properties of the global list `zealit.option.ignore`
 
 ### zealit.option
 Object to expose global options, applies to all _zealed_ objects.
@@ -51,7 +51,7 @@ Object to expose global options, applies to all _zealed_ objects.
     foo.bar = false // throws a TypeError
     ```
 
- - `ignore` &lt;Array> Properties to ignore, no exception will be thrown for these properties as they keep behaving like vanilla JavaScript properties. Applies to all _zealed_ objects, even those was instancied before the update of `zealit.option.ignore`
+ - `ignore` &lt;Array> Properties to ignore, no exception will be thrown for these properties as they keep behaving like vanilla JavaScript properties. Applies to all _zealed_ objects, even those was instancied before an update of `zealit.option.ignore`
     ```javascript
     const foo = zealit({ bar: true })
     foo.baz // throws a ReferenceError
