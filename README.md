@@ -38,11 +38,18 @@ Clones `obj` recursively and returns a _zealed_ version of the object.
 
  - `obj` &lt;any> Any JavaScript primitive or Object
  - `option` &lt;Object>
-    - `freeze` &lt;boolean> If `true`, the object is _freezed_ as the same time via `Object.freeze`. Defaults to `false`.
     - `ignore` &lt;String|Array> Properties to ignore, no exception will be thrown for these properties as they keep behaving like vanilla JavaScript properties
+    - `freeze` &lt;boolean> If `true`, the object is _freezed_ as the same time via `Object.freeze`. If provided, this local option will take precedence over the global option.
 
 ### zealit.option
 Object to expose global options, applies to all _zealed_ objects.
+
+ - `freeze` &lt;boolean> If `true`, `zealit` will freeze objects as the same time via `Object.freeze`. Defaults to `false`. If provided, the local option will take precedence over this global option.
+    ```javascript
+    zealit.option.freeze = true
+    const foo = zealit({ bar: true })
+    foo.bar = false // throws a TypeError
+    ```
 
  - `ignore` &lt;Array> Properties to ignore, no exception will be thrown for these properties as they keep behaving like vanilla JavaScript properties. Applies to all _zealed_ objects, even those was instancied before the update of `zealit.option.ignore`
     ```javascript
@@ -66,6 +73,5 @@ const zealit = require('zealit')
 
 ## Todo
  - option to disable recursion?
- - freeze as global option
  - test with more node version (v6.7.0 at the moment)
  - provide source code via github
