@@ -49,7 +49,7 @@ function zealit(obj, localOption={}) {
             : [localOption.ignore])
         : []
 
-    return traverse(obj).map(function (node) {
+    return traverse(obj).forEach(function (node) {
         const ignoreThat = (this.isRoot) ? listToIgnore : []
         this.after(() => {
             if (node !== null && typeof node === 'object') {

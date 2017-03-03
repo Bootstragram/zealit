@@ -210,3 +210,15 @@ const zealit = require('./zealit')
         throw new Error('test failed')
     }
 }
+
+
+
+{
+    const foo = Object.defineProperty({}, 'bar', {
+        value: true,
+    })
+    const baz = zealit(foo)
+    if (baz.bar !== true) {
+        throw new Error('test failed')
+    }
+}
