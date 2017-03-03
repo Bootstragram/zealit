@@ -43,7 +43,7 @@ Updates `obj` recursively and returns a _zealed_ version of the object.
     - `catch` &lt;boolean|Function> to override the default behavior (throwing a ReferenceError). If provided, this local option will take precedence over the global option.
         - `fn(err)`: calls `fn` function with the ReferenceError as argument in place of throw ReferenceError
         - `false`:  throw ReferenceError (default behavior)
-        - `true`: nothing happens
+        - `true`: doesn't throw ReferenceError
 
 ### zealit.option
 Object to expose global options, applies to all _zealed_ objects.
@@ -67,7 +67,7 @@ Object to expose global options, applies to all _zealed_ objects.
  - `catch` &lt;boolean|Function> to override the default behavior (throwing a ReferenceError). If provided, the local option will take precedence over this global option.
     - `fn(err)`: calls `fn` function with the ReferenceError as argument in place of throw ReferenceError
     - `false`:  throw ReferenceError (default behavior)
-    - `true`: nothing happens
+    - `true`: doesn't throw ReferenceError
     ```javascript
     const foo = zealit({ bar: true })
     zealit.option.catch = (err) => { console.log('gotcha', err) }
