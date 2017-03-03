@@ -14,8 +14,8 @@ const listSpecialProperty = [
 
 
 
-function zealOneObject(obj, listToIgnore) {
-    const localListToIgnore = listToIgnore.concat(listSpecialProperty)
+function zealOneObject(obj, option) {
+    const localListToIgnore = option.ignore.concat(listSpecialProperty)
 
     return new Proxy(obj, {
         get: (target, key) => {
@@ -47,7 +47,9 @@ function zealit(obj, option={}) {
         const ignoreThat = (this.isRoot) ? listToIgnore : []
         this.after(() => {
             if (node !== null && typeof node === 'object') {
-                const zealed = zealOneObject(node, ignoreThat)
+                const zealed = zealOneObject(node, {
+                    ignore: ignoreThat,
+                })
                 const fFreeze = (option.freeze) ? Object.freeze : ((e) => e)
                 this.update(fFreeze(zealed))
             }
