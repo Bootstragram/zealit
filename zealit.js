@@ -4,7 +4,7 @@ const traverse = require('traverse')
 
 
 const fHasOwnProperty = Object.prototype.hasOwnProperty
-const listSpecialProperty = [
+const globalListPropertyToIgnore = [
     'toJSON',
     'valueOf',
     'inspect',
@@ -15,7 +15,7 @@ const listSpecialProperty = [
 
 
 function zealOneObject(obj, option) {
-    const localListToIgnore = option.ignore.concat(listSpecialProperty)
+    const localListToIgnore = option.ignore.concat(globalListPropertyToIgnore)
 
     return new Proxy(obj, {
         get: (target, key) => {
