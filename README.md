@@ -17,7 +17,6 @@ const zealed = zealit(ref)
 zealed.foo // true
 zealed.bar // undefined
 zealed.baz // throws a ReferenceError
-ref.baz // throws a ReferenceError as ref was updated by zealit
 
 const myConstants = zealit({
     PI: 3.14159265,
@@ -30,6 +29,11 @@ myConstants.nbMsInOneDay = 39 // throws a TypeError
 const foo = zealit({}, { ignore: 'bar' })
 foo.bar // undefined
 foo.baz // throws a ReferenceError
+
+const bar = { baz: { yo: 1 } }
+const baz = zealit(bar, { clone: true })
+bar.baz.YO // undefined as bar was deeply cloned by zealit
+baz.baz.YO // throws a ReferenceError
 ```
 
 ## Methods and options
@@ -88,7 +92,7 @@ const zealit = require('zealit')
 ## Todo
  - provide source code via github
  - explain limitation (Promise, .length, lodash, hidden properties)
- - option to clone but lose hidden properties vs update and keep those
+ - more documentation about "clone" option (lose hidden properties vs update and keep those)
  - option to _rezeal_ a property
  - test with more node version (v6.7.0 at the moment)
  - option to disable recursion?

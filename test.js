@@ -298,3 +298,35 @@ const zealit = require('./zealit')
     }
     zealit.option.catch = false
 }
+
+
+
+{ // clone option
+    const a = { b: { c: { d: 1 } } }
+    const z = zealit(a)
+    const zz = zealit(a, { clone: true })
+
+    a.b.c.d = 2
+    if (a.b.c.d !== 2 || z.b.c.d !== 2 || zz.b.c.d !== 1) {
+        throw new Error('test failed')
+    }
+
+    zz.b.c.d = 3
+    if (a.b.c.d !== 2 || z.b.c.d !== 2 || zz.b.c.d !== 3) {
+        throw new Error('test failed')
+    }
+
+    const b = { b: { c: { d: 1 } } }
+    const zzz = zealit(b, { clone: true })
+    b.z
+    let err
+    try {
+        zzz.z
+    }
+    catch (_err) {
+        err = _err
+    }
+    if (!err) {
+        throw new Error('test failed')
+    }
+}
