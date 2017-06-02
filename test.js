@@ -195,9 +195,11 @@ const zealit = require('./zealit')
     if (!err || test2.bar !== true) {
         throw new Error('test failed')
     }
+    zealit.option.freeze = false
 }
 
 {
+    zealit.option.freeze = true
     const test3 = zealit({ bar: true }, { freeze: false })
     let err = null
     try {
@@ -209,6 +211,7 @@ const zealit = require('./zealit')
     if (err || test3.bar !== false) {
         throw new Error('test failed')
     }
+    zealit.option.freeze = false
 }
 
 
@@ -293,4 +296,5 @@ const zealit = require('./zealit')
         || err.message !== messageShouldBe) {
         throw new Error('test failed')
     }
+    zealit.option.catch = false
 }
