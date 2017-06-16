@@ -1,6 +1,6 @@
 {
   "name": "zealit",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Create an object with zealous property accessor. Prevent getting nonexistent property by throwing a ReferenceError.",
   "main": "zealit.js",
   "scripts": {
@@ -10,8 +10,8 @@
   "license": "ISC",
   "homepage": "https://github.com/Bootstragram/zealit",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/Bootstragram/zealit"
+    "type": "git",
+    "url": "https://github.com/Bootstragram/zealit"
   },
   "devDependencies": {
     "eslint": "~3.6.1",
