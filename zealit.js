@@ -15,6 +15,7 @@ const globalOption = {
     freeze: false,
     catch: false,
     clone: false,
+    disable: false,
 }
 
 
@@ -58,6 +59,13 @@ function zealOneObject(obj, localOption) {
 // create a zealous object
 //  prevent getting nonexistent property
 function zealit(obj, localOption={}) {
+    const disabled = (localOption.disable === undefined)
+        ? globalOption.disable
+        : localOption.disable
+    if (disabled) {
+        return obj
+    }
+
     const listToIgnore = (localOption.ignore)
         ? (Array.isArray(localOption.ignore)
             ? localOption.ignore

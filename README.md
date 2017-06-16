@@ -48,6 +48,7 @@ Updates `obj` recursively and returns a _zealed_ version of the object.
         - `fn(err)`: calls `fn` function with the ReferenceError as argument in place of throw ReferenceError
         - `false`:  throw ReferenceError (default behavior)
         - `true`: doesn't throw ReferenceError
+    - `disable` &lt;boolean> If `true`, `zealit` does nothing. If provided, this local option will take precedence over the global option.
 
 ### zealit.option
 Object to expose global options, applies to all _zealed_ objects.
@@ -76,6 +77,16 @@ Object to expose global options, applies to all _zealed_ objects.
     const foo = zealit({ bar: true })
     zealit.option.catch = (err) => { console.log('gotcha', err) }
     foo.baz // return undefined and console.log('gotcha', ReferenceError)
+    ```
+
+- `disable` &lt;boolean> If `true`, `zealit` does nothing, simply return `obj` itself.
+    ```javascript
+    zealit.option.disable = true
+    const foo = { bar: true }
+
+    // same thing
+    const baz = zealit(foo)
+    const baz = foo
     ```
 
 ## Installation
