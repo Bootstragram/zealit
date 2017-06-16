@@ -101,7 +101,6 @@ const zealit = require('zealit')
 ```
 
 ## Todo
- - provide source code via github
  - explain limitation (Promise, .length, lodash, hidden properties)
  - more documentation about "clone" option (lose hidden properties vs update and keep those)
  - option to _rezeal_ a property

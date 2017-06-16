@@ -8,6 +8,11 @@
   },
   "author": "",
   "license": "ISC",
+  "homepage": "https://github.com/Bootstragram/zealit",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/Bootstragram/zealit"
+  },
   "devDependencies": {
     "eslint": "~3.6.1",
     "eslint-config-airbnb": "~12.0.0",
