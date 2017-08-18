@@ -16,6 +16,7 @@ const globalOption = {
     catch: false,
     clone: false,
     disable: false,
+    strict: false,
 }
 
 
@@ -40,6 +41,19 @@ function zealOneObject(obj, localOption) {
             if (v !== undefined) {
                 return v
             }
+
+            const isStrict = getOption(localOption, 'strict')
+            if (isStrict) {
+                const msg = `zealit: property '${key}' is undefined`
+                const err = new ReferenceError(msg)
+                if (catchOption) {
+                    catchOption(err)
+                    return v
+                }
+
+                throw err
+            }
+
             if (fnHasOwnProperty.call(target, key)) {
                 return v
             }
@@ -88,6 +102,7 @@ function zealit(obj, localOption={}) {
                 const zealed = zealOneObject(node, {
                     ignore: ignoreThat,
                     catch: localOption.catch,
+                    strict: localOption.strict,
                 })
 
                 this.update(fnFreeze(zealed))
