@@ -20,13 +20,19 @@ const globalOption = {
 
 
 
+function getOption(option, idOption) {
+    if (option[idOption] === undefined) {
+        return globalOption[idOption]
+    }
+
+    return option[idOption]
+}
+
 function zealOneObject(obj, localOption) {
     return new Proxy(obj, {
         get: (target, key) => {
             const v = target[key]
-            const catchOption = (localOption.catch === undefined)
-                ? globalOption.catch
-                : localOption.catch
+            const catchOption = getOption(localOption, 'catch')
             if (catchOption === true) {
                 return v
             }
@@ -59,9 +65,7 @@ function zealOneObject(obj, localOption) {
 // create a zealous object
 //  prevent getting nonexistent property
 function zealit(obj, localOption={}) {
-    const disabled = (localOption.disable === undefined)
-        ? globalOption.disable
-        : localOption.disable
+    const disabled = getOption(localOption, 'disable')
     if (disabled) {
         return obj
     }
@@ -72,14 +76,9 @@ function zealit(obj, localOption={}) {
             : [localOption.ignore])
         : []
 
-    const mustFreeze = (localOption.freeze === undefined)
-        ? globalOption.freeze
-        : localOption.freeze
+    const mustFreeze = getOption(localOption, 'freeze')
     const fnFreeze = (mustFreeze) ? Object.freeze : ((e) => e)
-
-    const mustClone = (localOption.clone === undefined)
-        ? globalOption.clone
-        : localOption.clone
+    const mustClone = getOption(localOption, 'clone')
     const idFnTraverse = (mustClone) ? 'map' : 'forEach'
 
     return traverse(obj)[idFnTraverse](function (node) {
