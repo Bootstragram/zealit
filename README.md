@@ -13,11 +13,13 @@ ref.foo // true
 ref.bar // undefined
 ref.baz // undefined
 
+// default behavior
 const zealed = zealit(ref)
 zealed.foo // true
-zealed.bar // undefined
+zealed.bar // undefined, no Error thrown
 zealed.baz // throws a ReferenceError
 
+// "freeze" option
 const myConstants = zealit({
     PI: 3.14159265,
     nbMsInOneDay: 1000 * 60 * 60 * 24,
@@ -26,10 +28,12 @@ myConstants.PI // 3.14159265
 myConstants.Pi // throws a ReferenceError
 myConstants.nbMsInOneDay = 39 // throws a TypeError
 
+// "ignore" option
 const foo = zealit({}, { ignore: 'bar' })
-foo.bar // undefined
+foo.bar // undefined, no Error thrown
 foo.baz // throws a ReferenceError
 
+// "clone" option
 const bar = { baz: { yo: 1 } }
 const baz = zealit(bar, { clone: true })
 bar.baz.YO // undefined as bar was deeply cloned by zealit
