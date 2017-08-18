@@ -350,3 +350,17 @@ function mustCatch(fn, messageShouldBe) {
         throw new Error('test failed')
     }
 }
+
+{ // strict option
+    const foo = { baz: undefined }
+    const bar = {}
+    const z1 = zealit(foo, { strict: false })
+    const z2 = zealit(foo, { strict: true })
+    const z3 = zealit(bar, { strict: false })
+    const z4 = zealit(bar, { strict: true })
+
+    z1.baz // must not throw
+    mustCatch(() => z2.baz, "zealit: property 'baz' is undefined")
+    mustCatch(() => z3.baz, "zealit: property 'baz' is nonexistent")
+    mustCatch(() => z4.baz, "zealit: property 'baz' is undefined")
+}
