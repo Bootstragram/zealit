@@ -3,7 +3,7 @@ const traverse = require('traverse')
 
 
 
-const fHasOwnProperty = Object.prototype.hasOwnProperty
+const fnHasOwnProperty = Object.prototype.hasOwnProperty
 const globalOption = {
     ignore: [
         'toJSON',
@@ -34,7 +34,7 @@ function zealOneObject(obj, localOption) {
             if (v !== undefined) {
                 return v
             }
-            if (fHasOwnProperty.call(target, key)) {
+            if (fnHasOwnProperty.call(target, key)) {
                 return v
             }
             if (localOption.ignore.includes(key)) {
@@ -75,14 +75,14 @@ function zealit(obj, localOption={}) {
     const mustFreeze = (localOption.freeze === undefined)
         ? globalOption.freeze
         : localOption.freeze
-    const fFreeze = (mustFreeze) ? Object.freeze : ((e) => e)
+    const fnFreeze = (mustFreeze) ? Object.freeze : ((e) => e)
 
     const mustClone = (localOption.clone === undefined)
         ? globalOption.clone
         : localOption.clone
-    const fTraverse = (mustClone) ? 'map' : 'forEach'
+    const idFnTraverse = (mustClone) ? 'map' : 'forEach'
 
-    return traverse(obj)[fTraverse](function (node) {
+    return traverse(obj)[idFnTraverse](function (node) {
         const ignoreThat = (this.isRoot) ? listToIgnore : []
         this.after(() => {
             if (node !== null && typeof node === 'object') {
@@ -91,7 +91,7 @@ function zealit(obj, localOption={}) {
                     catch: localOption.catch,
                 })
 
-                this.update(fFreeze(zealed))
+                this.update(fnFreeze(zealed))
             }
         })
 
