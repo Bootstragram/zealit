@@ -4,6 +4,26 @@ const zealit = require('./zealit')
 
 
 
+function mustCatch(fn, messageShouldBe) {
+    let err
+
+    try {
+        fn()
+    }
+    catch (_err) {
+        err = _err
+    }
+
+    if (!err) {
+        throw new Error('test failed, no error thrown, should be')
+    }
+    if (err.message !== messageShouldBe) {
+        throw new Error(`test failed, error thrown with wrong message: "${err.message}" in place of "${messageShouldBe}"`)
+    }
+}
+
+
+
 /* eslint-disable no-unused-vars, no-unused-expressions, no-console */
 {
     const foo = zealit({ bar: true })
