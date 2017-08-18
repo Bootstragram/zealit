@@ -22,7 +22,7 @@ const globalOption = {
 
 function getOption(option, idOption) {
     if (option[idOption] === undefined) {
-        return globalOption[idOption]
+        return zealit.option[idOption]
     }
 
     return option[idOption]
@@ -46,7 +46,7 @@ function zealOneObject(obj, localOption) {
             if (localOption.ignore.includes(key)) {
                 return v
             }
-            if (globalOption.ignore.includes(key)) {
+            if (zealit.option.ignore.includes(key)) {
                 return v
             }
 
