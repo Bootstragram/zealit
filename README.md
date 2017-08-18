@@ -38,6 +38,14 @@ const bar = { baz: { yo: 1 } }
 const baz = zealit(bar, { clone: true })
 bar.baz.YO // undefined as bar was deeply cloned by zealit
 baz.baz.YO // throws a ReferenceError
+
+// "strict" option
+const foo = zealit({ x: undefined }, { strict: false })
+foo.x // undefined, no Error thrown
+foo.y // throws a ReferenceError
+const bar = zealit({ x: undefined }, { strict: true })
+bar.x // throws a ReferenceError
+bar.y // throws a ReferenceError
 ```
 
 ## Methods and options
@@ -53,6 +61,7 @@ Updates `obj` recursively and returns a _zealed_ version of the object.
         - `false`:  throw ReferenceError (default behavior)
         - `true`: doesn't throw ReferenceError
     - `disable` &lt;boolean> If `true`, `zealit` does nothing. If provided, this local option will take precedence over the global option.
+    - `strict` &lt;boolean> If `true`, `zealit` throws a ReferenceError if property exists with the `undefined` value.
 
 ### zealit.option
 Object to expose global options, applies to all _zealed_ objects.
@@ -91,6 +100,13 @@ Object to expose global options, applies to all _zealed_ objects.
     // same thing
     const baz = zealit(foo)
     const baz = foo
+    ```
+
+- `strict` &lt;boolean> If `true`, `zealit` throws a ReferenceError if property has the `undefined` value, even if property exists. By default, `zealit` throws a ReferenceError only if property doesn't exist.
+    ```javascript
+    zealit.option.strict = true
+    const foo = zealit({ bar: undefined })
+    foo.bar // throws a ReferenceError
     ```
 
 ## Installation
