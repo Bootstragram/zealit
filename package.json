@@ -1,6 +1,6 @@
 {
   "name": "zealit",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "Create an object with zealous property accessor. Prevent getting nonexistent property by throwing a ReferenceError.",
   "main": "zealit.js",
   "scripts": {
