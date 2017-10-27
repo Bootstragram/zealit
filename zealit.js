@@ -10,6 +10,7 @@ const globalOption = {
         'valueOf',
         'inspect',
         Symbol.toStringTag,
+        Symbol.isConcatSpreadable,
         util.inspect.custom,
     ].filter((e) => !!e),
     freeze: false,
