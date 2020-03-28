@@ -1,7 +1,6 @@
-const util = require('util')
+const isReactNative = (typeof(navigator) === 'object') && (navigator !== null) && navigator.product === 'ReactNative';
+const util = !isReactNative && require('util')
 const traverse = require('traverse')
-
-
 
 const fnHasOwnProperty = Object.prototype.hasOwnProperty
 const globalOption = {
@@ -11,7 +10,7 @@ const globalOption = {
         'inspect',
         Symbol.toStringTag,
         Symbol.isConcatSpreadable,
-        util.inspect.custom,
+        util ? util.inspect.custom : undefined,
     ].filter((e) => !!e),
     freeze: false,
     catch: false,
@@ -20,7 +19,12 @@ const globalOption = {
     strict: false,
 }
 
-
+if (isReactNative) {
+    globalOption.ignore.push(
+        '$$typeof',
+        'prototype',
+    );
+}
 
 function getOption(option, idOption) {
     if (option[idOption] === undefined) {
